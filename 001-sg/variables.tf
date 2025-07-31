@@ -29,3 +29,7 @@ variable "backend_alb_sg_name" {
 variable "backend_alb_sg_description" {
     default = "created sg for backend_alb instance"
 }
+
+/* variable "vpn_ports" {
+  default = [22, 443, 1194, 943]
+} */
