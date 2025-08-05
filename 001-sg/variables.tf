@@ -30,6 +30,37 @@ variable "backend_alb_sg_description" {
     default = "created sg for backend_alb instance"
 }
 
+variable "Mongodb_sg_name" {
+    default = "Mongodb"
+}
+
+variable "Mongodb_sg_description" {
+    default = "created sg for Mongodb instance"
+}
+
+variable "redis_sg_name" {
+    default = "redis"
+}
+
+variable "redis_sg_description" {
+    default = "created sg for redis instance"
+}
+
+variable "mysql_sg_name" {
+    default = "mysql"
+}
+
+variable "mysql_sg_description" {
+    default = "created sg for mysql instance"
+}
+
+variable "Rabbitmq_sg_name" {
+    default = "Rabbitmq"
+}
+
+variable "Rabbitmq_sg_description" {
+    default = "created sg for Rabbitmq instance"
+}
 /* variable "vpn_ports" {
   default = [22, 443, 1194, 943]
 } */
