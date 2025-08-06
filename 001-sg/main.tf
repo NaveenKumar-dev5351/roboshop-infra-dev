@@ -86,6 +86,18 @@ module "rabbitmq" {
     vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
+module "catalogue" {
+    #source = "../../terraform-aws-sg"
+    source = "git::https://github.com/NaveenKumar-dev5351/terraform-aws-sg.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = var.catalogue_sg_name
+    sg_description = var.catalogue_sg_description
+    vpc_id = data.aws_ssm_parameter.vpc_id.value
+}
+
+
 #bastion accepting connections from my laptop
 resource "aws_security_group_rule" "bastion_laptop" {
   type              = "ingress"
@@ -106,7 +118,7 @@ resource "aws_security_group_rule" "backend_alb" {
   security_group_id = module.backend_alb.sg_id
 }
 
-resource "aws_security_group_rule" "mongodb_ingress_from_vpn" {
+resource "aws_security_group_rule" "Mongodb_ingress_from_vpn" {
   for_each = toset([for p in [22,27017] : tostring(p)])
 
 
@@ -165,4 +177,47 @@ resource "aws_security_group_rule" "vpn_ingress" {
   security_group_id = module.vpn.sg_id
 }
 
+resource "aws_security_group_rule" "catalogue_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  source_security_group_id = module.backend_alb.sg_id
+  security_group_id = module.catalogue.sg_id
+}
 
+resource "aws_security_group_rule" "catalogue_ingress_from_vpn" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.vpn.sg_id
+  security_group_id = module.catalogue.sg_id
+}
+
+resource "aws_security_group_rule" "catalogue_vpn_http" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  source_security_group_id = module.vpn.sg_id
+  security_group_id = module.catalogue.sg_id
+}
+
+resource "aws_security_group_rule" "catalogue_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id
+  security_group_id = module.catalogue.sg_id
+}
+
+resource "aws_security_group_rule" "Mongodb_catalogue" {
+  type              = "ingress"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+  source_security_group_id = module.catalogue.sg_id
+  security_group_id = module.Mongodb.sg_id
+}
