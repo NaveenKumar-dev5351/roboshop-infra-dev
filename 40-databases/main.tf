@@ -83,6 +83,7 @@ resource "aws_instance" "mysql" {
   instance_type = "t3.micro"
   vpc_security_group_ids = [local.mysql_sg_id]
   subnet_id = local.database_subnet_ids
+  iam_instance_profile = "EC2role"
 
   tags = merge (
     local.common_tags,
@@ -118,23 +119,23 @@ resource "terraform_data" "mysql" {
 
 }
 
-resource "aws_instance" "Rabbitmq" {
+resource "aws_instance" "rabbitmq" {
   ami           = local.ami_id
   instance_type = "t3.micro"
-  vpc_security_group_ids = [local.Rabbitmq_sg_id]
+  vpc_security_group_ids = [local.rabbitmq_sg_id]
   subnet_id = local.database_subnet_ids
 
   tags = merge (
     local.common_tags,
     {
-      Name = "${var.project}-${var.environment}-Rabbitmq"
+      Name = "${var.project}-${var.environment}-rabbitmq"
     }
   )
 }
 
-resource "terraform_data" "Rabbitmq" {
+resource "terraform_data" "rabbitmq" {
   triggers_replace = [
-    aws_instance.Rabbitmq.id
+    aws_instance.rabbitmq.id
   ]
 
  provisioner "file" {
@@ -146,15 +147,15 @@ resource "terraform_data" "Rabbitmq" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    host     = aws_instance.Rabbitmq.private_ip
+    host     = aws_instance.rabbitmq.private_ip
   }
 
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh Rabbitmq"
+      "sudo sh /tmp/bootstrap.sh rabbitmq"
     ]
-  }
+}
 
 }
   
