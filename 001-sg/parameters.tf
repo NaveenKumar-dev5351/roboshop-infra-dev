@@ -40,8 +40,8 @@ resource "aws_ssm_parameter" "mysql_sg_id" {
   value = module.mysql.sg_id
 }
 
-resource "aws_ssm_parameter" "Rabbitmq_sg_id" {
-  name  = "/${var.project}/${var.environment}/Rabbitmq_sg_id"
+resource "aws_ssm_parameter" "rabbitmq_sg_id" {
+  name  = "/${var.project}/${var.environment}/rabbitmq_sg_id"
   type  = "String"
-  value = module.Rabbitmq.sg_id
+  value = module.rabbitmq.sg_id
 }

@@ -75,14 +75,14 @@ module "mysql" {
     vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
-module "Rabbitmq" {
+module "rabbitmq" {
     #source = "../../terraform-aws-sg"
     source = "git::https://github.com/NaveenKumar-dev5351/terraform-aws-sg.git?ref=main"
     project = var.project
     environment = var.environment
 
-    sg_name = var.Rabbitmq_sg_name
-    sg_description = var.Rabbitmq_sg_description
+    sg_name = var.rabbitmq_sg_name
+    sg_description = var.rabbitmq_sg_description
     vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
@@ -142,7 +142,7 @@ resource "aws_security_group_rule" "mysql_ingress_from_vpn" {
   security_group_id        = module.mysql.sg_id
 }
 
-resource "aws_security_group_rule" "Rabbitmq_ingress_from_vpn" {
+resource "aws_security_group_rule" "rabbitmq_ingress_from_vpn" {
   for_each = toset([for p in [22,5672] : tostring(p)])
 
 
@@ -151,7 +151,7 @@ resource "aws_security_group_rule" "Rabbitmq_ingress_from_vpn" {
   to_port                  = each.value
   protocol                 = "tcp"
   source_security_group_id = module.vpn.sg_id
-  security_group_id        = module.Rabbitmq.sg_id
+  security_group_id        = module.rabbitmq.sg_id
 }
 
 resource "aws_security_group_rule" "vpn_ingress" {

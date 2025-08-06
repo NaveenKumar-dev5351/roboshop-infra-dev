@@ -54,12 +54,12 @@ variable "mysql_sg_description" {
     default = "created sg for mysql instance"
 }
 
-variable "Rabbitmq_sg_name" {
-    default = "Rabbitmq"
+variable "rabbitmq_sg_name" {
+    default = "rabbitmq"
 }
 
-variable "Rabbitmq_sg_description" {
-    default = "created sg for Rabbitmq instance"
+variable "rabbitmq_sg_description" {
+    default = "created sg for rabbitmq instance"
 }
 /* variable "vpn_ports" {
   default = [22, 443, 1194, 943]
