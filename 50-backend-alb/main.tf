@@ -8,7 +8,7 @@ module "backend_alb" {
 
   create_security_group = false
   security_groups = [local.backend_alb_sg_id]
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   tags = merge (
     local.common_tags,
@@ -32,6 +32,7 @@ resource "aws_lb_listener" "backend_alb" {
       status_code  = "200"
     }
   }
+  
 }
 
 resource "aws_route53_record" "backend_alb" {
