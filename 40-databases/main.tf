@@ -1,3 +1,4 @@
+#Mongodb
 resource "aws_instance" "Mongodb" {
   ami           = local.ami_id
   instance_type = "t3.micro"
@@ -38,6 +39,7 @@ resource "terraform_data" "Mongodb" {
 
 }
 
+#redis
 resource "aws_instance" "redis" {
   ami           = local.ami_id
   instance_type = "t3.micro"
@@ -77,7 +79,7 @@ resource "terraform_data" "redis" {
   }
 
 }
-
+#mysql
 resource "aws_instance" "mysql" {
   ami           = local.ami_id
   instance_type = "t3.micro"
@@ -118,7 +120,7 @@ resource "terraform_data" "mysql" {
   }
 
 }
-
+#rabbitmq
 resource "aws_instance" "rabbitmq" {
   ami           = local.ami_id
   instance_type = "t3.micro"
