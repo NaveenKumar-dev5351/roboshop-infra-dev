@@ -79,7 +79,7 @@ variable "catalogue_sg_description" {
 }
 
 variable "user_sg_name" {
-    default = "catalogue"
+    default = "user"
 }
 
 variable "user_sg_description" {
@@ -109,6 +109,7 @@ variable "payment_sg_name" {
 variable "payment_sg_description" {
     default = "created sg for payment instance"
 }
+
 variable "Mongodb_ports_vpn" { # just keep as Mongodb_ports
     default = [22, 27017]
 }
