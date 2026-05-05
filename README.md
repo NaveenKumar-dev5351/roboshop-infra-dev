@@ -38,3 +38,125 @@ Frontend ALB (Public)
 │  │  Redis | RabbitMQ        │   │
 │  └──────────────────────────┘   │
 └─────────────────────────────────┘
+## 📁 Infrastructure Components
+
+| Module | Description |
+|---|---|
+| `00-vpc` | VPC, Subnets, IGW, NAT Gateway, Route Tables |
+| `001-sg` | Security Groups for all components |
+| `20-bastion` | Bastion Host for secure SSH access |
+| `30-vpn` | OpenVPN server for private network access |
+| `40-databases` | MongoDB, MySQL, Redis, RabbitMQ setup |
+| `50-backend-alb` | Internal ALB for backend microservices |
+| `60-acm` | AWS Certificate Manager for SSL/TLS |
+| `60-catalogue` | Catalogue microservice infrastructure |
+| `70-frontend-alb` | Public ALB for frontend traffic |
+| `80-user` | User microservice infrastructure |
+| `90-components` | Remaining Roboshop components |
+
+## 🛠️ Tech Stack
+- **IaC:** Terraform
+- **Cloud:** AWS
+- **Networking:** VPC, Subnets, IGW, NAT, Route Tables
+- **Security:** Security Groups, NACLs, IAM, Bastion Host
+- **Load Balancing:** ALB (Frontend + Backend)
+- **SSL/TLS:** AWS Certificate Manager (ACM)
+- **VPN:** OpenVPN
+- **Databases:** MongoDB, MySQL, Redis, RabbitMQ
+- **OS:** Linux (RHEL, Amazon Linux)
+
+## ✅ Features Implemented
+- Multi-tier VPC with public and private subnets
+- Bastion Host for secure SSH access to private resources
+- OpenVPN for secure remote network access
+- Separate Security Groups per component — least privilege
+- Internal ALB for backend service routing
+- Public ALB with SSL termination for frontend
+- ACM managed SSL/TLS certificates
+- Complete database infrastructure — MongoDB, MySQL, Redis, RabbitMQ
+- Modular Terraform — each component independently deployable
+- Remote state management using S3
+
+## 🚀 How to Deploy
+
+### Prerequisites
+```bash
+# Install Terraform
+wget https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
+unzip terraform_1.5.0_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+
+# Configure AWS credentials
+aws configure
+```
+
+### Deployment Order
+```bash
+# 1. Deploy VPC first
+cd 00-vpc
+terraform init
+terraform plan
+terraform apply
+
+# 2. Deploy Security Groups
+cd ../001-sg
+terraform init && terraform apply
+
+# 3. Deploy Bastion Host
+cd ../20-bastion
+terraform init && terraform apply
+
+# 4. Deploy VPN
+cd ../30-vpn
+terraform init && terraform apply
+
+# 5. Deploy Databases
+cd ../40-databases
+terraform init && terraform apply
+
+# 6. Deploy Backend ALB
+cd ../50-backend-alb
+terraform init && terraform apply
+
+# 7. Deploy ACM Certificate
+cd ../60-acm
+terraform init && terraform apply
+
+# 8. Deploy Application Components
+cd ../60-catalogue && terraform init && terraform apply
+cd ../80-user && terraform init && terraform apply
+cd ../90-components && terraform init && terraform apply
+
+# 9. Deploy Frontend ALB
+cd ../70-frontend_alb
+terraform init && terraform apply
+```
+
+## 🔧 Key Design Decisions
+| Decision | Reason |
+|---|---|
+| Modular Terraform | Each component independently manageable |
+| Bastion Host | Secure access to private subnet resources |
+| OpenVPN | Developer access to private network |
+| Separate SGs per component | Least privilege security model |
+| Internal ALB for backend | Microservices not exposed to internet |
+| ACM for SSL | Managed certificate rotation |
+
+## 🔒 Security Features
+- All databases in private subnets — not internet accessible
+- Bastion Host is the only public SSH entry point
+- Security Groups allow only required ports per component
+- IAM roles follow least privilege principle
+- SSL/TLS termination at ALB level
+
+## 📸 Screenshots
+> Add screenshots of AWS Console showing deployed infrastructure
+
+## 🔗 Related Projects
+- [Roboshop Docker](https://github.com/NaveenKumar-dev5351/roboshop-docker)
+- [Roboshop Ansible](https://github.com/NaveenKumar-dev5351/ansible-roboshop)
+- [Roboshop Shell](https://github.com/NaveenKumar-dev5351/shell-roboshop)
+
+## 👨‍💻 Author
+**Naveen Kumar Lingampelly**
+DevOps Engineer | [LinkedIn](https://linkedin.com/in/naveenlingampelli) | [GitHub](https://github.com/NaveenKumar-dev5351)
