@@ -77,6 +77,49 @@ Frontend ALB (Public)
 - Modular Terraform — each component independently deployable
 - Remote state management using S3
 
+## 🗄️ Remote State Management
+
+Each component has isolated state in AWS S3:
+
+| Component | S3 Key |
+|---|---|
+| VPC | `roboshop-dev-vpc/terraform.tfstate` |
+| Security Groups | `roboshop-dev-sg/terraform.tfstate` |
+| Bastion Host | `roboshop-dev-bastion/terraform.tfstate` |
+| VPN | `roboshop-dev-vpn/terraform.tfstate` |
+| Databases | `roboshop-dev-db/terraform.tfstate` |
+| Backend ALB | `roboshop-dev-backend_alb/terraform.tfstate` |
+| ACM | `roboshop-dev-acm/terraform.tfstate` |
+| Frontend ALB | `roboshop-dev-frontend_alb/terraform.tfstate` |
+| EKS Cluster | `roboshop-dev-eks/terraform.tfstate` |
+| CI/CD | `roboshop-dev-cicd/terraform.tfstate` |
+| App Components | `roboshop-dev-catalogue/terraform.tfstate` |
+
+### Benefits of Per-Component State
+- ✅ Independent component updates
+- ✅ No state file conflicts in team environment
+- ✅ Faster Terraform operations per component
+- ✅ Isolated blast radius on state corruption
+- ✅ Separate Dev and Prod state buckets
+
+### State Configuration Example
+```hcl
+terraform {
+  backend "s3" {
+    bucket = "84devops-dev"
+    key    = "roboshop-dev-vpc/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+```
+
+## 🌍 Multi-Environment Setup
+
+| Environment | S3 Bucket | Status |
+|---|---|---|
+| Development | `84devops-dev` | ✅ Active |
+| Production | `84devops-prod` | ✅ Active |
+
 ## 🚀 How to Deploy
 
 ### Prerequisites
