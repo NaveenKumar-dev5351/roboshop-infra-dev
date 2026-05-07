@@ -77,7 +77,7 @@ Frontend ALB (Public)
 - Modular Terraform — each component independently deployable
 - Remote state management using S3
 
-## 🗄️ Remote State Management
+## 🗄️ Remote State Management using AWS S3 with DynamoDB state locking
 
 Each component has isolated state in AWS S3:
 
@@ -109,6 +109,7 @@ terraform {
     bucket = "84devops-dev"
     key    = "roboshop-dev-vpc/terraform.tfstate"
     region = "us-east-1"
+    dynamodb_table = "84devops"    # State locking
   }
 }
 ```
